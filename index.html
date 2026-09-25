@@ -11,61 +11,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
     <!-- Tailwind CSS -->
-        // --- Confetti Celebration ---
-        function approvePilot() {
-            showToast('Ação registrada! Piloto aprovado para implantação.', 'success');
-            var duration = 4 * 1000;
-            var end = Date.now() + duration;
-            (function frame() {
-                confetti({
-                    particleCount: 6,
-                    angle: 60,
-                    spread: 55,
-                    origin: { x: 0 },
-                    colors: ['#3B82F6', '#10B981', '#F59E0B']
-                });
-                confetti({
-                    particleCount: 6,
-                    angle: 120,
-                    spread: 55,
-                    origin: { x: 1 },
-                    colors: ['#3B82F6', '#10B981', '#F59E0B']
-                });
-                if (Date.now() < end) {
-                    requestAnimationFrame(frame);
-                }
-            }());
-        }
-
     <script src="https://cdn.tailwindcss.com"></script>
     
     <!-- Lucide Icons -->
-        // --- Confetti Celebration ---
-        function approvePilot() {
-            showToast('Ação registrada! Piloto aprovado para implantação.', 'success');
-            var duration = 4 * 1000;
-            var end = Date.now() + duration;
-            (function frame() {
-                confetti({
-                    particleCount: 6,
-                    angle: 60,
-                    spread: 55,
-                    origin: { x: 0 },
-                    colors: ['#3B82F6', '#10B981', '#F59E0B']
-                });
-                confetti({
-                    particleCount: 6,
-                    angle: 120,
-                    spread: 55,
-                    origin: { x: 1 },
-                    colors: ['#3B82F6', '#10B981', '#F59E0B']
-                });
-                if (Date.now() < end) {
-                    requestAnimationFrame(frame);
-                }
-            }());
-        }
-
     <script src="https://unpkg.com/lucide@latest"></script>
 
     <script>
@@ -90,32 +38,6 @@
                 }
             }
         }
-        // --- Confetti Celebration ---
-        function approvePilot() {
-            showToast('Ação registrada! Piloto aprovado para implantação.', 'success');
-            var duration = 4 * 1000;
-            var end = Date.now() + duration;
-            (function frame() {
-                confetti({
-                    particleCount: 6,
-                    angle: 60,
-                    spread: 55,
-                    origin: { x: 0 },
-                    colors: ['#3B82F6', '#10B981', '#F59E0B']
-                });
-                confetti({
-                    particleCount: 6,
-                    angle: 120,
-                    spread: 55,
-                    origin: { x: 1 },
-                    colors: ['#3B82F6', '#10B981', '#F59E0B']
-                });
-                if (Date.now() < end) {
-                    requestAnimationFrame(frame);
-                }
-            }());
-        }
-
     </script>
 
     <style>
@@ -908,7 +830,6 @@
 
     <!-- Interactivity Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-
     <script>
         // Initialize Icons
         lucide.createIcons();
@@ -1147,7 +1068,7 @@
                 setTimeout(() => toast.remove(), 300);
             }, 3500);
         }
-        
+
         // --- Confetti Celebration ---
         function approvePilot() {
             showToast('Ação registrada! Piloto aprovado para implantação.', 'success');
@@ -1173,7 +1094,7 @@
                 }
             }());
         }
-
+        
     </script>
 </body>
 </html>
