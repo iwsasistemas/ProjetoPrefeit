@@ -48,17 +48,31 @@
             overflow-x: hidden;
         }
 
+        @keyframes blob {
+            0% { transform: translate(0px, 0px) scale(1); }
+            33% { transform: translate(30px, -50px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
+            100% { transform: translate(0px, 0px) scale(1); }
+        }
+        .animate-blob { animation: blob 15s infinite alternate ease-in-out; }
+        .animation-delay-2000 { animation-delay: 2s; }
+        .animation-delay-4000 { animation-delay: 4s; }
+
         .glass-card {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+            transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1), 
+                        border-color 0.5s ease, 
+                        box-shadow 0.5s ease;
         }
 
         .glass-card:hover {
-            border-color: rgba(59, 130, 246, 0.3);
-            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.25);
+            box-shadow: 0 15px 40px rgba(59, 130, 246, 0.2);
+            transform: translateY(-4px) scale(1.01);
         }
 
         /* Slide Mode specific */
@@ -83,12 +97,30 @@
             justify-content: center;
             overflow-y: auto;
             padding: 2rem 0;
+            transform: scale(0.95) translateY(30px);
+            filter: blur(8px);
+            transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1), 
+                        transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), 
+                        filter 0.8s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
         .presentation-mode .section-slide.active {
             opacity: 1;
             pointer-events: auto;
             z-index: 10;
+            transform: scale(1) translateY(0);
+            filter: blur(0);
+        }
+
+        /* Elements Reveal within active slide */
+        .reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        .section-slide.active .reveal {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         /* Progress Bar */
@@ -178,6 +210,13 @@
     </style>
 </head>
 <body class="relative scroll-smooth">
+    <!-- Ambient Background -->
+    <div class="fixed inset-0 z-[-1] overflow-hidden pointer-events-none bg-brand-base">
+        <div class="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-brand-accent/20 rounded-full blur-[120px] mix-blend-screen animate-blob"></div>
+        <div class="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-brand-success/15 rounded-full blur-[120px] mix-blend-screen animate-blob animation-delay-2000"></div>
+        <div class="absolute top-[40%] left-[60%] w-[40%] h-[40%] bg-purple-500/15 rounded-full blur-[120px] mix-blend-screen animate-blob animation-delay-4000"></div>
+    </div>
+
 
     <!-- Progress Bar -->
     <div class="fixed top-0 left-0 w-full h-1 bg-brand-primary z-50">
@@ -833,6 +872,19 @@
     <script>
         // Initialize Icons
         lucide.createIcons();
+
+        // Auto-add reveal classes to elements for stagger animation
+        document.querySelectorAll('.section-slide').forEach(slide => {
+            const elements = slide.querySelectorAll('h1, h2, h3, p, .glass-card, ul li, button');
+            let delay = 100;
+            elements.forEach((el) => {
+                el.classList.add('reveal');
+                el.style.transitionDelay = `${delay}ms`;
+                delay += 80;
+                if(delay > 600) delay = 600;
+            });
+        });
+
 
         // --- Core State ---
         let isSlideMode = false;
