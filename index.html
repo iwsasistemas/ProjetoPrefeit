@@ -113,12 +113,12 @@
         }
 
         /* Elements Reveal within active slide */
-        .reveal {
+        .presentation-mode .reveal {
             opacity: 0;
             transform: translateY(20px);
             transition: all 0.8s cubic-bezier(0.25, 1, 0.5, 1);
         }
-        .section-slide.active .reveal {
+        .presentation-mode .section-slide.active .reveal {
             opacity: 1;
             transform: translateY(0);
         }
@@ -233,7 +233,7 @@
             <i data-lucide="maximize" class="w-5 h-5 text-white"></i>
             <span class="absolute -bottom-8 right-0 text-xs bg-black/80 px-2 py-1 rounded opacity-0 group-hover:opacity-100 whitespace-nowrap">Tela Cheia</span>
         </button>
-        <button id="btn-mode" class="p-3 rounded-full glass-card hover:bg-white/10 transition-colors flex items-center gap-2 group relative">
+        <button id="btn-mode" class="p-3 rounded-full glass-card hover:bg-white/10 transition-colors hidden md:flex items-center gap-2 group relative">
             <i data-lucide="monitor-play" class="w-5 h-5 text-brand-accent"></i>
             <span class="text-sm font-medium hidden md:block">Modo Slide</span>
             <span class="absolute -bottom-8 right-0 text-xs bg-black/80 px-2 py-1 rounded opacity-0 group-hover:opacity-100 whitespace-nowrap">Alternar Navegação</span>
