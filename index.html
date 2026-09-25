@@ -3,24 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Várzea Alegre Digital - Inovação Pública</title>
+    <title>Várzea Alegre Digital | Apresentação Executiva</title>
     
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- AOS Animation CSS -->
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="assets/css/style.css">
-    
-    <!-- Google Fonts -->
+    <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
-    <!-- Phosphor Icons -->
-    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
 
     <script>
         tailwind.config = {
@@ -31,265 +25,1040 @@
                     },
                     colors: {
                         brand: {
-                            50: '#eff6ff',
-                            100: '#dbeafe',
-                            500: '#3b82f6',
-                            600: '#2563eb',
-                            900: '#1e3a8a',
-                            950: '#172554',
+                            base: '#070F2B',
+                            primary: '#1B1A55',
+                            accent: '#3B82F6',
+                            success: '#10B981',
+                            warning: '#F59E0B',
                         }
+                    },
+                    backgroundImage: {
+                        'glass': 'linear-gradient(to right bottom, rgba(255,255,255,0.05), rgba(255,255,255,0.01))',
                     }
                 }
             }
         }
     </script>
+
+    <style>
+        /* Custom Styles & Glassmorphism */
+        body {
+            background-color: #070F2B;
+            color: #F8FAFC;
+            overflow-x: hidden;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        .glass-card:hover {
+            border-color: rgba(59, 130, 246, 0.3);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        /* Slide Mode specific */
+        .presentation-mode body {
+            overflow: hidden;
+        }
+        
+        .section-slide {
+            transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+        }
+
+        .presentation-mode .section-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            opacity: 0;
+            pointer-events: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow-y: auto;
+            padding: 2rem 0;
+        }
+
+        .presentation-mode .section-slide.active {
+            opacity: 1;
+            pointer-events: auto;
+            z-index: 10;
+        }
+
+        /* Progress Bar */
+        #progress-bar {
+            transition: width 0.3s ease;
+        }
+
+        /* Custom Scrollbar for notes */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #070F2B; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1B1A55; 
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #3B82F6; 
+        }
+
+        /* Image Before/After Slider */
+        .comparison-slider {
+            position: relative;
+            width: 100%;
+            height: 300px;
+            overflow: hidden;
+            border-radius: 1rem;
+        }
+        .comparison-slider img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        .comparison-slider .after-img {
+            clip-path: polygon(50% 0, 100% 0, 100% 100%, 50% 100%);
+        }
+        .slider-handle {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            width: 4px;
+            background: white;
+            cursor: ew-resize;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+        }
+        .slider-button {
+            width: 32px;
+            height: 32px;
+            background: #3B82F6;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+        }
+
+        /* Toast */
+        .toast-enter {
+            transform: translateY(100%);
+            opacity: 0;
+        }
+        .toast-enter-active {
+            transform: translateY(0);
+            opacity: 1;
+            transition: all 0.3s ease-out;
+        }
+        .toast-leave {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        .toast-leave-active {
+            transform: translateY(100%);
+            opacity: 0;
+            transition: all 0.3s ease-in;
+        }
+    </style>
 </head>
-<body class="bg-brand-950 text-slate-100 font-sans antialiased overflow-x-hidden selection:bg-brand-500 selection:text-white">
+<body class="relative scroll-smooth">
 
-    <!-- Hero Section -->
-    <header class="relative min-h-screen flex items-center justify-center overflow-hidden">
-        <!-- Abstract Background -->
-        <div class="absolute inset-0 z-0 opacity-40">
-            <div class="absolute top-0 left-1/4 w-96 h-96 bg-brand-600 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob"></div>
-            <div class="absolute top-0 right-1/4 w-96 h-96 bg-cyan-500 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob animation-delay-2000"></div>
-            <div class="absolute -bottom-32 left-1/2 w-96 h-96 bg-purple-600 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob animation-delay-4000"></div>
-        </div>
+    <!-- Progress Bar -->
+    <div class="fixed top-0 left-0 w-full h-1 bg-brand-primary z-50">
+        <div id="progress-bar" class="h-full bg-brand-accent w-0"></div>
+    </div>
 
-        <div class="container mx-auto px-6 relative z-10 text-center">
-            <span class="inline-block py-1 px-3 rounded-full bg-brand-900/50 border border-brand-500/30 text-brand-100 text-sm font-medium tracking-wider mb-6" data-aos="fade-down">
-                GESTÃO PREFEITO FLAVINHO
-            </span>
-            <h1 class="text-5xl md:text-7xl font-bold tracking-tight mb-8" data-aos="fade-up" data-aos-delay="100">
-                <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300">Várzea Alegre Digital</span>
-            </h1>
-            <p class="text-xl md:text-2xl text-slate-300 max-w-3xl mx-auto mb-12" data-aos="fade-up" data-aos-delay="200">
-                Plataforma Única de Eficiência Urbana, Gestão de Frota e Cidadania.
-            </p>
-            <div data-aos="fade-up" data-aos-delay="300">
-                <a href="#solucoes" class="inline-flex items-center justify-center px-8 py-4 text-base font-semibold text-white transition-all duration-200 bg-brand-600 border border-transparent rounded-full hover:bg-brand-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-600">
-                    Conhecer a Plataforma
-                    <i class="ph ph-arrow-down ml-2 text-xl"></i>
-                </a>
+    <!-- Floating Controls -->
+    <div class="fixed top-6 right-6 z-50 flex items-center gap-3">
+        <button id="btn-notes" class="p-3 rounded-full glass-card hover:bg-white/10 transition-colors tooltip relative group" aria-label="Notas do Apresentador">
+            <i data-lucide="mic" class="w-5 h-5 text-brand-warning"></i>
+            <span class="absolute -bottom-8 right-0 text-xs bg-black/80 px-2 py-1 rounded opacity-0 group-hover:opacity-100 whitespace-nowrap">Notas de Apresentação</span>
+        </button>
+        <button id="btn-fullscreen" class="p-3 rounded-full glass-card hover:bg-white/10 transition-colors group relative" aria-label="Tela Cheia">
+            <i data-lucide="maximize" class="w-5 h-5 text-white"></i>
+            <span class="absolute -bottom-8 right-0 text-xs bg-black/80 px-2 py-1 rounded opacity-0 group-hover:opacity-100 whitespace-nowrap">Tela Cheia</span>
+        </button>
+        <button id="btn-mode" class="p-3 rounded-full glass-card hover:bg-white/10 transition-colors flex items-center gap-2 group relative">
+            <i data-lucide="monitor-play" class="w-5 h-5 text-brand-accent"></i>
+            <span class="text-sm font-medium hidden md:block">Modo Slide</span>
+            <span class="absolute -bottom-8 right-0 text-xs bg-black/80 px-2 py-1 rounded opacity-0 group-hover:opacity-100 whitespace-nowrap">Alternar Navegação</span>
+        </button>
+    </div>
+
+    <!-- Slide Navigation Controls (Visible in Slide Mode) -->
+    <div id="slide-controls" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 hidden items-center gap-4 glass-card px-4 py-2 rounded-full">
+        <button id="btn-prev" class="p-2 hover:text-brand-accent transition-colors"><i data-lucide="chevron-left" class="w-6 h-6"></i></button>
+        <span id="slide-counter" class="text-sm font-medium text-slate-300">1 / 8</span>
+        <button id="btn-next" class="p-2 hover:text-brand-accent transition-colors"><i data-lucide="chevron-right" class="w-6 h-6"></i></button>
+    </div>
+
+    <!-- Presenter Notes Drawer -->
+    <div id="notes-drawer" class="fixed top-0 right-0 h-full w-80 bg-brand-base border-l border-white/10 z-[60] transform translate-x-full transition-transform duration-300 shadow-2xl overflow-y-auto">
+        <div class="p-6">
+            <div class="flex justify-between items-center mb-6 border-b border-white/10 pb-4">
+                <h3 class="text-lg font-bold text-brand-warning flex items-center gap-2">
+                    <i data-lucide="mic"></i> Script de Fala
+                </h3>
+                <button id="btn-close-notes" class="p-1 hover:text-red-400 transition-colors"><i data-lucide="x"></i></button>
+            </div>
+            <div id="notes-content" class="text-slate-300 text-sm leading-relaxed space-y-4">
+                <!-- Notes injected by JS -->
             </div>
         </div>
-    </header>
+    </div>
 
-    <!-- Problemas Section -->
-    <section class="py-24 bg-slate-900">
-        <div class="container mx-auto px-6">
-            <div class="text-center mb-16" data-aos="fade-up">
-                <h2 class="text-3xl md:text-4xl font-bold mb-4">O Custo Oculto da Gestão Analógica</h2>
-                <p class="text-slate-400 max-w-2xl mx-auto">Desafios operacionais do modelo tradicional que comprometem a gestão pública e o atendimento ao cidadão.</p>
-            </div>
-
-            <div class="grid md:grid-cols-3 gap-8">
-                <!-- Card 1 -->
-                <div class="bg-slate-800/50 p-8 rounded-3xl border border-slate-700 hover:border-brand-500/50 transition-colors" data-aos="fade-up" data-aos-delay="100">
-                    <div class="w-14 h-14 bg-red-500/20 text-red-400 rounded-2xl flex items-center justify-center text-3xl mb-6">
-                        <i class="ph ph-file-text"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mb-3">Processos em Papel</h3>
-                    <p class="text-slate-400 text-sm">Acúmulo de arquivos físicos e retrabalho de servidores. Ausência de relatórios em tempo real, gerando atrasos nos processos administrativos.</p>
+    <!-- Main Content Container -->
+    <main id="presentation-container" class="w-full">
+        
+        <!-- ==========================================
+             SEÇÃO 1: CAPA
+        =========================================== -->
+        <section class="section-slide min-h-screen flex items-center py-20" data-notes="Boa tarde Prefeito Flavinho e Secretários. É uma honra apresentar hoje a Plataforma Várzea Alegre Digital. Nosso foco hoje não é vender software, é mostrar como a tecnologia pode gerar economia real e aprovação popular direta, resolvendo as dores diárias da gestão sem burocracia.">
+            <div class="container mx-auto px-6 lg:px-12 relative z-10 text-center">
+                <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass-card text-slate-300 text-xs font-semibold tracking-wider mb-8 uppercase">
+                    <i data-lucide="shield-check" class="w-4 h-4 text-brand-success"></i>
+                    Prefeitura Municipal de Várzea Alegre - CE | Gestão Prefeito Flavinho
                 </div>
-                <!-- Card 2 -->
-                <div class="bg-slate-800/50 p-8 rounded-3xl border border-slate-700 hover:border-brand-500/50 transition-colors" data-aos="fade-up" data-aos-delay="200">
-                    <div class="w-14 h-14 bg-orange-500/20 text-orange-400 rounded-2xl flex items-center justify-center text-3xl mb-6">
-                        <i class="ph ph-gas-pump"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mb-3">Desperdício de Frota</h3>
-                    <p class="text-slate-400 text-sm">Vans e ônibus viajando com até 30% de assentos vagos. Falta de confirmação prévia gera desperdício de combustível e recursos.</p>
-                </div>
-                <!-- Card 3 -->
-                <div class="bg-slate-800/50 p-8 rounded-3xl border border-slate-700 hover:border-brand-500/50 transition-colors" data-aos="fade-up" data-aos-delay="300">
-                    <div class="w-14 h-14 bg-purple-500/20 text-purple-400 rounded-2xl flex items-center justify-center text-3xl mb-6">
-                        <i class="ph ph-users-three"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mb-3">Desgaste em Filas</h3>
-                    <p class="text-slate-400 text-sm">Famílias enfrentando filas físicas de madrugada. Matrículas sem sistema digital causam sofrimento e exclusão aos mais vulneráveis.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Solucoes / Sistemas -->
-    <section id="solucoes" class="py-24 bg-brand-950 relative overflow-hidden">
-        <div class="container mx-auto px-6 relative z-10">
-            <div class="text-center mb-20" data-aos="fade-up">
-                <h2 class="text-4xl md:text-5xl font-bold mb-4">Nossa Solução Inteligente</h2>
-                <p class="text-slate-400 max-w-2xl mx-auto">Três pilares fundamentais para transformar a cidade.</p>
-            </div>
-
-            <!-- Sistema 1 -->
-            <div class="flex flex-col lg:flex-row items-center gap-12 mb-32">
-                <div class="lg:w-1/2" data-aos="fade-right">
-                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/20 text-blue-300 text-sm font-semibold mb-6">
-                        <i class="ph-fill ph-ambulance"></i> Sistema 1
-                    </div>
-                    <h3 class="text-3xl font-bold mb-6">Logística da Saúde Inteligente</h3>
-                    <p class="text-slate-400 mb-8 text-lg">Zere o desperdício de frota e melhore o atendimento. Cidadãos solicitam viagens via WhatsApp, a triagem é digital e a ocupação da frota é 100% controlada.</p>
-                    <ul class="space-y-4">
-                        <li class="flex items-start gap-3">
-                            <i class="ph-fill ph-check-circle text-brand-400 text-xl mt-1"></i>
-                            <div>
-                                <strong class="block text-slate-200">Solicitação Mobile</strong>
-                                <span class="text-slate-400 text-sm">Via WhatsApp sem baixar aplicativos.</span>
-                            </div>
-                        </li>
-                        <li class="flex items-start gap-3">
-                            <i class="ph-fill ph-check-circle text-brand-400 text-xl mt-1"></i>
-                            <div>
-                                <strong class="block text-slate-200">Remanejamento Dinâmico</strong>
-                                <span class="text-slate-400 text-sm">Cancelamentos liberam vagas em tempo real.</span>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-                <div class="lg:w-1/2 relative" data-aos="fade-left">
-                    <div class="absolute inset-0 bg-gradient-to-tr from-brand-600 to-cyan-500 rounded-3xl blur-2xl opacity-20"></div>
-                    <img src="https://images.unsplash.com/photo-1516549655169-df83a0774514?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Saúde" class="rounded-3xl relative z-10 border border-slate-700 shadow-2xl">
-                </div>
-            </div>
-
-            <!-- Sistema 2 -->
-            <div class="flex flex-col lg:flex-row-reverse items-center gap-12 mb-32">
-                <div class="lg:w-1/2" data-aos="fade-left">
-                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-500/20 text-orange-300 text-sm font-semibold mb-6">
-                        <i class="ph-fill ph-wrench"></i> Sistema 2
-                    </div>
-                    <h3 class="text-3xl font-bold mb-6">Zeladoria Urbana e Obras</h3>
-                    <p class="text-slate-400 mb-8 text-lg">Manutenção pública georreferenciada por GPS. O cidadão envia o problema com foto, a prefeitura visualiza em mapa de calor e a equipe resolve com rota otimizada.</p>
-                    <ul class="space-y-4">
-                        <li class="flex items-start gap-3">
-                            <i class="ph-fill ph-check-circle text-orange-400 text-xl mt-1"></i>
-                            <div>
-                                <strong class="block text-slate-200">Mapa de Calor</strong>
-                                <span class="text-slate-400 text-sm">Demandas agrupadas por bairro.</span>
-                            </div>
-                        </li>
-                        <li class="flex items-start gap-3">
-                            <i class="ph-fill ph-check-circle text-orange-400 text-xl mt-1"></i>
-                            <div>
-                                <strong class="block text-slate-200">Retorno "Antes e Depois"</strong>
-                                <span class="text-slate-400 text-sm">Transparência e marketing político ativo.</span>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-                <div class="lg:w-1/2 relative" data-aos="fade-right">
-                    <div class="absolute inset-0 bg-gradient-to-tr from-orange-600 to-yellow-500 rounded-3xl blur-2xl opacity-20"></div>
-                    <img src="https://images.unsplash.com/photo-1584464457692-73ec53eb63a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Obras" class="rounded-3xl relative z-10 border border-slate-700 shadow-2xl">
-                </div>
-            </div>
-
-            <!-- Sistema 3 -->
-            <div class="flex flex-col lg:flex-row items-center gap-12">
-                <div class="lg:w-1/2" data-aos="fade-right">
-                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/20 text-purple-300 text-sm font-semibold mb-6">
-                        <i class="ph-fill ph-student"></i> Sistema 3
-                    </div>
-                    <h3 class="text-3xl font-bold mb-6">Matrículas e Projetos Sociais</h3>
-                    <p class="text-slate-400 mb-8 text-lg">Fim definitivo das filas noturnas. Cadastro pelo smartphone, algoritmo socioeconômico justo e fila 100% auditável pelo TCE-CE.</p>
-                    <ul class="space-y-4">
-                        <li class="flex items-start gap-3">
-                            <i class="ph-fill ph-check-circle text-purple-400 text-xl mt-1"></i>
-                            <div>
-                                <strong class="block text-slate-200">Algoritmo Inteligente</strong>
-                                <span class="text-slate-400 text-sm">Priorização automática para famílias vulneráveis.</span>
-                            </div>
-                        </li>
-                        <li class="flex items-start gap-3">
-                            <i class="ph-fill ph-check-circle text-purple-400 text-xl mt-1"></i>
-                            <div>
-                                <strong class="block text-slate-200">Pesquisa de Acolhimento</strong>
-                                <span class="text-slate-400 text-sm">Indicadores de satisfação para gestão do Prefeito.</span>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-                <div class="lg:w-1/2 relative" data-aos="fade-left">
-                    <div class="absolute inset-0 bg-gradient-to-tr from-purple-600 to-pink-500 rounded-3xl blur-2xl opacity-20"></div>
-                    <img src="https://images.unsplash.com/photo-1577896851231-70ef18881754?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Matrículas" class="rounded-3xl relative z-10 border border-slate-700 shadow-2xl">
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Beneficios / Tech -->
-    <section class="py-24 bg-slate-900 border-t border-slate-800">
-        <div class="container mx-auto px-6">
-            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-                <div class="text-center" data-aos="zoom-in" data-aos-delay="100">
-                    <div class="w-16 h-16 mx-auto bg-slate-800 rounded-full flex items-center justify-center text-3xl mb-4 border border-slate-700">
-                        ☁️
-                    </div>
-                    <h4 class="font-bold text-lg mb-2">100% Nuvem</h4>
-                    <p class="text-slate-400 text-sm">Zero compra de servidores. Alta disponibilidade.</p>
-                </div>
-                <div class="text-center" data-aos="zoom-in" data-aos-delay="200">
-                    <div class="w-16 h-16 mx-auto bg-slate-800 rounded-full flex items-center justify-center text-3xl mb-4 border border-slate-700">
-                        🔒
-                    </div>
-                    <h4 class="font-bold text-lg mb-2">Conformidade LGPD</h4>
-                    <p class="text-slate-400 text-sm">Criptografia e segurança total dos dados.</p>
-                </div>
-                <div class="text-center" data-aos="zoom-in" data-aos-delay="300">
-                    <div class="w-16 h-16 mx-auto bg-slate-800 rounded-full flex items-center justify-center text-3xl mb-4 border border-slate-700">
-                        🚀
-                    </div>
-                    <h4 class="font-bold text-lg mb-2">Implantação Expressa</h4>
-                    <p class="text-slate-400 text-sm">Pronta para uso em 5 dias úteis. Sem burocracia.</p>
-                </div>
-                <div class="text-center" data-aos="zoom-in" data-aos-delay="400">
-                    <div class="w-16 h-16 mx-auto bg-slate-800 rounded-full flex items-center justify-center text-3xl mb-4 border border-slate-700">
-                        👥
-                    </div>
-                    <h4 class="font-bold text-lg mb-2">Capacitação Prática</h4>
-                    <p class="text-slate-400 text-sm">Treinamento ágil para servidores municipais.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Pricing / CTA -->
-    <section class="py-24 bg-brand-950 relative">
-        <div class="container mx-auto px-6 max-w-4xl">
-            <div class="bg-gradient-to-br from-slate-800 to-slate-900 rounded-3xl p-8 md:p-12 border border-slate-700 shadow-2xl relative overflow-hidden" data-aos="fade-up">
-                <div class="absolute top-0 right-0 p-8 opacity-10 pointer-events-none">
-                    <i class="ph-fill ph-handshake text-9xl"></i>
-                </div>
-                <h2 class="text-3xl md:text-4xl font-bold mb-4">Proposta de Investimento e Parceria</h2>
-                <p class="text-slate-400 mb-8 text-lg">Enquadramento legal direto e seguro (Dispensa por Valor - Lei 14.133/2021).</p>
                 
-                <div class="flex flex-col md:flex-row items-center justify-between gap-8 mb-8 pb-8 border-b border-slate-700">
-                    <div>
-                        <div class="text-brand-400 font-semibold mb-1">Investimento Mensal</div>
-                        <div class="text-4xl md:text-5xl font-bold">R$ 3.900<span class="text-xl text-slate-400">/mês</span></div>
-                        <div class="text-sm text-slate-500 mt-2">R$ 46.800 anuais (inclui servidores, WhatsApp, suporte)</div>
+                <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight mb-6 leading-tight">
+                    Várzea Alegre Digital <br>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-accent to-cyan-300">Eficiência Urbana Unificada</span>
+                </h1>
+                
+                <p class="text-xl md:text-2xl text-slate-400 max-w-3xl mx-auto mb-12 font-light">
+                    Modernização Operacional das Secretarias Municipais com Retorno Político Direto e Zero Burocracia.
+                </p>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto mb-16">
+                    <div class="glass-card p-6 rounded-2xl flex flex-col items-center justify-center transform hover:-translate-y-2 transition-transform duration-300">
+                        <i data-lucide="map" class="w-10 h-10 text-brand-accent mb-4"></i>
+                        <h3 class="text-lg font-bold">3 Polos do Cariri</h3>
+                        <p class="text-sm text-slate-400 mt-2">Juazeiro, Crato e Barbalha conectados.</p>
                     </div>
-                    <div class="bg-emerald-500/10 text-emerald-400 px-6 py-3 rounded-xl border border-emerald-500/20 font-medium">
-                        ✅ Início já na próxima semana
+                    <div class="glass-card p-6 rounded-2xl flex flex-col items-center justify-center transform hover:-translate-y-2 transition-transform duration-300 border-t-4 border-t-brand-success">
+                        <i data-lucide="message-circle" class="w-10 h-10 text-brand-success mb-4"></i>
+                        <h3 class="text-lg font-bold">100% WhatsApp</h3>
+                        <p class="text-sm text-slate-400 mt-2">Sem necessidade de baixar aplicativo.</p>
+                    </div>
+                    <div class="glass-card p-6 rounded-2xl flex flex-col items-center justify-center transform hover:-translate-y-2 transition-transform duration-300 border-t-4 border-t-brand-warning">
+                        <i data-lucide="rocket" class="w-10 h-10 text-brand-warning mb-4"></i>
+                        <h3 class="text-lg font-bold">15 Dias de Piloto</h3>
+                        <p class="text-sm text-slate-400 mt-2">Risco Zero para o município.</p>
                     </div>
                 </div>
 
-                <div class="flex justify-center">
-                    <button class="bg-brand-600 hover:bg-brand-500 text-white font-bold py-4 px-10 rounded-full text-lg transition-all shadow-[0_0_20px_rgba(37,99,235,0.4)] hover:shadow-[0_0_30px_rgba(37,99,235,0.6)]">
-                        Agendar Projeto Piloto (15 Dias)
+                <button onclick="nextSlide()" class="inline-flex items-center gap-3 px-8 py-4 bg-brand-accent hover:bg-blue-600 text-white rounded-full font-bold text-lg transition-all shadow-[0_0_20px_rgba(59,130,246,0.5)] hover:shadow-[0_0_30px_rgba(59,130,246,0.8)]">
+                    Iniciar Apresentação do Projeto
+                    <i data-lucide="arrow-down" class="w-5 h-5 slide-icon-down"></i>
+                </button>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             SEÇÃO 2: DIAGNÓSTICO
+        =========================================== -->
+        <section class="section-slide min-h-screen flex items-center py-20" data-notes="Prefeito, antes de mostrar a solução, vamos olhar para o cenário atual. O modelo analógico custa caro aos cofres públicos. Vans viajando vazias, retrabalho de servidores com papéis e o pior: mães nas calçadas em filas de madrugada. A digitalização resolve isso e entrega relatórios prontos para o TCE, blindando a gestão.">
+            <div class="container mx-auto px-6 lg:px-12">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl md:text-5xl font-bold mb-4">O Custo Invisível dos Processos Tradicionais</h2>
+                    <p class="text-xl text-slate-400 max-w-2xl mx-auto">Por que a digitalização não é luxo, mas uma necessidade orçamentária urgente.</p>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-10 max-w-6xl mx-auto">
+                    <!-- Antes -->
+                    <div class="glass-card p-8 rounded-3xl border-red-500/20 relative overflow-hidden">
+                        <div class="absolute top-0 left-0 w-1 h-full bg-red-500"></div>
+                        <h3 class="text-2xl font-bold mb-6 flex items-center gap-3 text-red-400">
+                            <i data-lucide="x-circle"></i> Modelo Analógico Atual
+                        </h3>
+                        <ul class="space-y-6">
+                            <li class="flex items-start gap-4">
+                                <i data-lucide="file-x" class="w-6 h-6 text-red-400 shrink-0 mt-1"></i>
+                                <span class="text-slate-300">Papéis acumulados e retrabalho constante de digitação dos servidores.</span>
+                            </li>
+                            <li class="flex items-start gap-4">
+                                <i data-lucide="bus" class="w-6 h-6 text-red-400 shrink-0 mt-1"></i>
+                                <span class="text-slate-300">Até 30% das vans da saúde viajando com assentos vazios por falta de confirmação prévia.</span>
+                            </li>
+                            <li class="flex items-start gap-4">
+                                <i data-lucide="users" class="w-6 h-6 text-red-400 shrink-0 mt-1"></i>
+                                <span class="text-slate-300">Mães enfrentando filas físicas de madrugada nas calçadas de creches e secretarias.</span>
+                            </li>
+                            <li class="flex items-start gap-4">
+                                <i data-lucide="alert-triangle" class="w-6 h-6 text-red-400 shrink-0 mt-1"></i>
+                                <span class="text-slate-300">Ausência de relatórios em tempo real e risco de apontamentos pelo TCE-CE.</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Depois -->
+                    <div class="glass-card p-8 rounded-3xl border-brand-success/20 relative overflow-hidden bg-gradient-to-br from-transparent to-brand-success/5">
+                        <div class="absolute top-0 left-0 w-1 h-full bg-brand-success"></div>
+                        <h3 class="text-2xl font-bold mb-6 flex items-center gap-3 text-brand-success">
+                            <i data-lucide="check-circle-2"></i> Modelo Várzea Alegre Digital
+                        </h3>
+                        <ul class="space-y-6">
+                            <li class="flex items-start gap-4">
+                                <i data-lucide="cloud" class="w-6 h-6 text-brand-success shrink-0 mt-1"></i>
+                                <span class="text-slate-200">100% em Nuvem com painéis rápidos e automações noturnas.</span>
+                            </li>
+                            <li class="flex items-start gap-4">
+                                <i data-lucide="smartphone" class="w-6 h-6 text-brand-success shrink-0 mt-1"></i>
+                                <span class="text-slate-200">Confirmação automática via WhatsApp com remanejamento imediato de desistências.</span>
+                            </li>
+                            <li class="flex items-start gap-4">
+                                <i data-lucide="calendar-check" class="w-6 h-6 text-brand-success shrink-0 mt-1"></i>
+                                <span class="text-slate-200">Filas de espera eletrônicas, auditáveis e com agendamento de horário marcado.</span>
+                            </li>
+                            <li class="flex items-start gap-4">
+                                <i data-lucide="bar-chart-3" class="w-6 h-6 text-brand-success shrink-0 mt-1"></i>
+                                <span class="text-slate-200 font-semibold">Relatórios consolidados prontos para prestação de contas no TCE-CE.</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             SEÇÃO 3: MÓDULO 1 (SAÚDE)
+        =========================================== -->
+        <section class="section-slide min-h-screen flex items-center py-20" data-notes="Para o primeiro módulo, Logística da Saúde. Diariamente, Várzea Alegre envia pacientes para Juazeiro, Crato e Barbalha. Hoje, se alguém falta, o banco vai vazio e o dinheiro público queima. Nosso sistema dispara um WhatsApp 24h antes. Se o paciente cancelar, a fila anda na mesma hora. O motorista recebe a lista no celular. É economia real de combustível e frota otimizada!">
+            <div class="container mx-auto px-6 lg:px-12">
+                <div class="mb-12">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/20 text-brand-accent text-sm font-semibold mb-4 border border-blue-500/30">
+                        <i data-lucide="ambulance" class="w-4 h-4"></i> Módulo 1
+                    </div>
+                    <h2 class="text-4xl font-bold mb-4">Logística da Saúde Inteligente (Polo Cariri)</h2>
+                    <p class="text-xl text-slate-400 max-w-3xl">Rotas otimizadas de Várzea Alegre para Juazeiro do Norte, Crato e Barbalha.</p>
+                </div>
+
+                <div class="grid lg:grid-cols-2 gap-12 items-center">
+                    <!-- Timeline -->
+                    <div class="space-y-6">
+                        <div class="flex gap-4">
+                            <div class="flex flex-col items-center">
+                                <div class="w-8 h-8 rounded-full bg-brand-primary flex items-center justify-center font-bold text-sm text-brand-accent border border-brand-accent/30">1</div>
+                                <div class="w-0.5 h-full bg-white/10 my-1"></div>
+                            </div>
+                            <div class="pb-4">
+                                <h4 class="text-lg font-bold flex items-center gap-2"><i data-lucide="smartphone" class="w-4 h-4 text-slate-400"></i> Solicitação Mobile</h4>
+                                <p class="text-sm text-slate-400">Paciente envia foto da guia médica do SUS pelo navegador do celular.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4">
+                            <div class="flex flex-col items-center">
+                                <div class="w-8 h-8 rounded-full bg-brand-primary flex items-center justify-center font-bold text-sm text-brand-accent border border-brand-accent/30">2</div>
+                                <div class="w-0.5 h-full bg-white/10 my-1"></div>
+                            </div>
+                            <div class="pb-4">
+                                <h4 class="text-lg font-bold flex items-center gap-2"><i data-lucide="clipboard-check" class="w-4 h-4 text-slate-400"></i> Triagem na Secretaria</h4>
+                                <p class="text-sm text-slate-400">Gestor valida guia e aloca veículo/motorista no painel central.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4">
+                            <div class="flex flex-col items-center">
+                                <div class="w-8 h-8 rounded-full bg-brand-accent flex items-center justify-center font-bold text-sm text-white shadow-[0_0_10px_rgba(59,130,246,0.6)]">3</div>
+                                <div class="w-0.5 h-full bg-brand-accent/50 my-1"></div>
+                            </div>
+                            <div class="pb-4">
+                                <h4 class="text-lg font-bold text-brand-accent flex items-center gap-2"><i data-lucide="message-circle" class="w-4 h-4"></i> Confirmação Automática</h4>
+                                <p class="text-sm text-slate-300">Disparo às 18h no WhatsApp com placa, motorista e horário.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4">
+                            <div class="flex flex-col items-center">
+                                <div class="w-8 h-8 rounded-full bg-brand-primary flex items-center justify-center font-bold text-sm text-brand-accent border border-brand-accent/30">4</div>
+                                <div class="w-0.5 h-full bg-white/10 my-1"></div>
+                            </div>
+                            <div class="pb-4">
+                                <h4 class="text-lg font-bold flex items-center gap-2"><i data-lucide="refresh-cw" class="w-4 h-4 text-slate-400"></i> Remanejamento Dinâmico</h4>
+                                <p class="text-sm text-slate-400">Desistências liberam vagas automaticamente para a fila de espera.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4">
+                            <div class="flex flex-col items-center">
+                                <div class="w-8 h-8 rounded-full bg-brand-primary flex items-center justify-center font-bold text-sm text-brand-accent border border-brand-accent/30">5</div>
+                                <div class="w-0.5 h-full bg-white/10 my-1"></div>
+                            </div>
+                            <div class="pb-4">
+                                <h4 class="text-lg font-bold flex items-center gap-2"><i data-lucide="bus" class="w-4 h-4 text-slate-400"></i> Check-in do Motorista</h4>
+                                <p class="text-sm text-slate-400">Recebe Lista de Bordo em PDF e faz check-in em 1 toque.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4">
+                            <div class="flex flex-col items-center">
+                                <div class="w-8 h-8 rounded-full bg-brand-primary flex items-center justify-center font-bold text-sm text-brand-accent border border-brand-accent/30">6</div>
+                            </div>
+                            <div>
+                                <h4 class="text-lg font-bold flex items-center gap-2"><i data-lucide="star" class="w-4 h-4 text-brand-warning"></i> Pesquisa de Satisfação</h4>
+                                <p class="text-sm text-slate-400">Paciente avalia a viagem no WhatsApp, alimentando o índice do prefeito.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- WhatsApp Simulator -->
+                    <div class="flex justify-center">
+                        <div class="w-80 h-[600px] bg-slate-900 rounded-[3rem] border-[8px] border-slate-800 shadow-2xl relative overflow-hidden flex flex-col">
+                            <!-- Phone Notch -->
+                            <div class="absolute top-0 inset-x-0 h-6 bg-slate-800 rounded-b-3xl w-40 mx-auto z-20"></div>
+                            
+                            <!-- App Header -->
+                            <div class="bg-[#075E54] pt-8 pb-3 px-4 flex items-center gap-3 z-10 shadow-md">
+                                <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center p-1">
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Bras%C3%A3o_de_V%C3%A1rzea_Alegre.png/400px-Bras%C3%A3o_de_V%C3%A1rzea_Alegre.png" alt="Brasão" class="w-full h-full object-contain" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'black\' stroke-width=\'2\'><path d=\'M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z\'/></svg>'">
+                                </div>
+                                <div class="text-white">
+                                    <div class="font-bold text-sm">Saúde Várzea Alegre</div>
+                                    <div class="text-[10px] text-white/80">Conta Comercial Oficial</div>
+                                </div>
+                            </div>
+
+                            <!-- Chat Background -->
+                            <div class="flex-1 bg-[#efeae2] p-4 flex flex-col gap-3 overflow-y-auto" style="background-image: url('https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png'); background-size: cover;">
+                                
+                                <div class="bg-white rounded-lg rounded-tl-none p-3 max-w-[90%] shadow-sm text-sm text-slate-800 relative">
+                                    <p>Olá Maria, sua vaga na Van para <strong>Juazeiro</strong> amanhã às 05:00 está reservada.</p>
+                                    <p class="mt-2 text-xs bg-slate-100 p-2 rounded border-l-2 border-brand-accent">🚐 Placa: OCR-1234<br>👨‍✈️ Mot: João Paulo</p>
+                                    <p class="mt-2 font-medium">Responda [1] para CONFIRMAR ou [2] para CANCELAR.</p>
+                                    <span class="text-[9px] text-slate-400 absolute bottom-1 right-2">18:00</span>
+                                </div>
+
+                                <!-- Interactive Buttons -->
+                                <div id="wa-actions" class="flex flex-col gap-2 mt-2">
+                                    <button onclick="simulateWA(1)" class="bg-[#128C7E] hover:bg-[#075E54] text-white py-2 rounded-full text-sm font-bold transition-colors">1 - Confirmar Vaga</button>
+                                    <button onclick="simulateWA(2)" class="bg-white hover:bg-slate-50 text-red-500 py-2 rounded-full text-sm font-bold border border-slate-200 transition-colors">2 - Cancelar (Liberar vaga)</button>
+                                </div>
+
+                                <!-- Response Container -->
+                                <div id="wa-response" class="hidden flex flex-col gap-3 mt-2">
+                                    <div class="bg-[#dcf8c6] rounded-lg rounded-tr-none p-3 max-w-[90%] self-end shadow-sm text-sm text-slate-800 relative">
+                                        <span id="wa-user-msg">1</span>
+                                        <span class="text-[9px] text-slate-400 absolute bottom-1 right-2 flex items-center gap-1">18:05 <i data-lucide="check-check" class="w-3 h-3 text-blue-500"></i></span>
+                                    </div>
+                                    <div class="bg-white rounded-lg rounded-tl-none p-3 max-w-[90%] shadow-sm text-sm text-slate-800 relative">
+                                        <p id="wa-bot-msg" class="flex flex-col gap-2"></p>
+                                        <span class="text-[9px] text-slate-400 absolute bottom-1 right-2">18:05</span>
+                                    </div>
+                                    <button onclick="resetWA()" class="text-xs text-center text-[#128C7E] mt-4 font-bold">↻ Reiniciar Demonstração</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             SEÇÃO 4: MÓDULO 2 (ZELADORIA)
+        =========================================== -->
+        <section class="section-slide min-h-screen flex items-center py-20" data-notes="Módulo 2: Obras e Zeladoria. Aqui o morador vira os olhos da prefeitura. Ele vê um buraco ou lâmpada queimada, tira a foto pelo celular e o GPS marca o local exato. A equipe de rua recebe a rota otimizada. Quando concluem, tiram a foto do serviço feito e o sistema manda o 'Antes e Depois' pro morador. É transparência e marketing político ativo, mostrando serviço na palma da mão da população.">
+            <div class="container mx-auto px-6 lg:px-12">
+                <div class="mb-12 text-center md:text-left">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-500/20 text-orange-400 text-sm font-semibold mb-4 border border-orange-500/30">
+                        <i data-lucide="hard-hat" class="w-4 h-4"></i> Módulo 2
+                    </div>
+                    <h2 class="text-4xl font-bold mb-4">Zeladoria Urbana e Obras Inteligentes</h2>
+                    <p class="text-xl text-slate-400 max-w-3xl">O morador vira os olhos da prefeitura nos bairros, com geolocalização instantânea.</p>
+                </div>
+
+                <div class="grid lg:grid-cols-2 gap-12 items-center">
+                    
+                    <!-- Slider Widget -->
+                    <div class="order-2 lg:order-1 relative rounded-2xl overflow-hidden glass-card p-4">
+                        <div class="mb-3 flex justify-between items-center px-2">
+                            <span class="text-sm font-bold text-red-400">Antes (Problema)</span>
+                            <span class="text-sm font-bold text-brand-success">Depois (Resolvido)</span>
+                        </div>
+                        <div class="comparison-slider" id="slider-container">
+                            <!-- Imagem Antes (Fundo) -->
+                            <img src="https://images.unsplash.com/photo-1515162816999-a0c47dc192f7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Antes" class="grayscale">
+                            
+                            <!-- Imagem Depois (Frente, clipada) -->
+                            <img src="https://images.unsplash.com/photo-1515162816999-a0c47dc192f7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Depois" class="after-img brightness-110 saturate-150" id="slider-after">
+                            
+                            <!-- Controle do Slider -->
+                            <div class="slider-handle" id="slider-handle">
+                                <div class="slider-button">
+                                    <i data-lucide="code" class="w-4 h-4 transform rotate-90"></i>
+                                </div>
+                            </div>
+
+                            <!-- Overlay Badges -->
+                            <div class="absolute bottom-4 left-4 bg-black/60 backdrop-blur px-3 py-1 rounded-full text-xs text-white border border-white/20">
+                                📍 Rua Padre Cícero, 140
+                            </div>
+                            <div class="absolute top-4 right-4 bg-brand-success text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg flex items-center gap-1">
+                                <i data-lucide="check-circle-2" class="w-3 h-3"></i> O.S. Concluída
+                            </div>
+                        </div>
+                        <p class="text-center text-xs text-slate-400 mt-4">Arraste a linha para comparar a resolução do chamado.</p>
+                    </div>
+
+                    <!-- Timeline -->
+                    <div class="order-1 lg:order-2 space-y-6">
+                        <div class="grid grid-cols-2 gap-6">
+                            <div class="glass-card p-5 rounded-xl border-white/5 hover:border-orange-500/30 transition-colors">
+                                <div class="w-10 h-10 rounded-full bg-orange-500/20 text-orange-400 flex items-center justify-center mb-3">
+                                    <i data-lucide="map-pin" class="w-5 h-5"></i>
+                                </div>
+                                <h4 class="font-bold mb-1">1. Chamado GPS</h4>
+                                <p class="text-xs text-slate-400">Morador envia foto com captura automática de coordenadas.</p>
+                            </div>
+                            <div class="glass-card p-5 rounded-xl border-white/5 hover:border-orange-500/30 transition-colors">
+                                <div class="w-10 h-10 rounded-full bg-orange-500/20 text-orange-400 flex items-center justify-center mb-3">
+                                    <i data-lucide="map" class="w-5 h-5"></i>
+                                </div>
+                                <h4 class="font-bold mb-1">2. Mapa de Calor</h4>
+                                <p class="text-xs text-slate-400">Secretaria visualiza demandas agrupadas por bairros.</p>
+                            </div>
+                            <div class="glass-card p-5 rounded-xl border-white/5 hover:border-orange-500/30 transition-colors">
+                                <div class="w-10 h-10 rounded-full bg-orange-500/20 text-orange-400 flex items-center justify-center mb-3">
+                                    <i data-lucide="file-text" class="w-5 h-5"></i>
+                                </div>
+                                <h4 class="font-bold mb-1">3. O.S. Digital</h4>
+                                <p class="text-xs text-slate-400">Equipe de rua recebe chamado no celular (link p/ Waze).</p>
+                            </div>
+                            <div class="glass-card p-5 rounded-xl border-white/5 border-orange-500/30 relative">
+                                <div class="absolute -top-2 -right-2 bg-brand-success text-white text-[10px] px-2 py-0.5 rounded-full font-bold animate-pulse">Destino Final</div>
+                                <div class="w-10 h-10 rounded-full bg-brand-success/20 text-brand-success flex items-center justify-center mb-3">
+                                    <i data-lucide="camera" class="w-5 h-5"></i>
+                                </div>
+                                <h4 class="font-bold mb-1">4. Antes e Depois</h4>
+                                <p class="text-xs text-slate-400">WhatsApp envia automaticamente ao morador a foto da obra concluída.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             SEÇÃO 5: MÓDULO 3 (CRAS / MATRÍCULAS)
+        =========================================== -->
+        <section class="section-slide min-h-screen flex items-center py-20" data-notes="Módulo 3: Fim das Filas em Creches e CRAS. É desumano ver mães dormindo na calçada por uma vaga. Nosso sistema permite cadastro pelo celular de casa. Um algoritmo socioeconômico justo pontua mães solo e famílias vulneráveis, gerando uma fila 100% auditável pelo TCE. Quando chega a vez, o sistema avisa o horário exato para assinar. Dignidade total e zero denúncias de apadrinhamento.">
+            <div class="container mx-auto px-6 lg:px-12">
+                <div class="mb-12">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/20 text-purple-400 text-sm font-semibold mb-4 border border-purple-500/30">
+                        <i data-lucide="graduation-cap" class="w-4 h-4"></i> Módulo 3
+                    </div>
+                    <h2 class="text-4xl font-bold mb-4">Centralizador de Matrículas e Projetos Sociais</h2>
+                    <p class="text-xl text-slate-400 max-w-3xl">Fim definitivo das filas noturnas nas creches e total transparência social (Auditável TCE-CE).</p>
+                </div>
+
+                <div class="grid lg:grid-cols-2 gap-12 items-center">
+                    <!-- Flow -->
+                    <div class="space-y-4">
+                        <div class="glass-card p-4 rounded-xl flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-full bg-purple-500/20 flex items-center justify-center text-purple-400 shrink-0"><i data-lucide="smartphone"></i></div>
+                            <div>
+                                <h4 class="font-bold">1. Cadastro no Smartphone</h4>
+                                <p class="text-sm text-slate-400">Pais anexam certidão e comprovante sem sair de casa.</p>
+                            </div>
+                        </div>
+                        <div class="glass-card p-4 rounded-xl flex items-center gap-4 border border-purple-500/30 shadow-[0_0_15px_rgba(168,85,247,0.15)]">
+                            <div class="w-12 h-12 rounded-full bg-purple-500 text-white flex items-center justify-center shrink-0"><i data-lucide="calculator"></i></div>
+                            <div>
+                                <h4 class="font-bold">2. Algoritmo Socioeconômico</h4>
+                                <p class="text-sm text-slate-300">Pontuação automática por critérios (Mães solo, Bolsa Família).</p>
+                            </div>
+                        </div>
+                        <div class="glass-card p-4 rounded-xl flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-full bg-purple-500/20 flex items-center justify-center text-purple-400 shrink-0"><i data-lucide="scale"></i></div>
+                            <div>
+                                <h4 class="font-bold">3. Fila Auditável TCE-CE</h4>
+                                <p class="text-sm text-slate-400">Lista pública e transparente, eliminando favorecimentos.</p>
+                            </div>
+                        </div>
+                        <div class="glass-card p-4 rounded-xl flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-full bg-purple-500/20 flex items-center justify-center text-purple-400 shrink-0"><i data-lucide="bell-ring"></i></div>
+                            <div>
+                                <h4 class="font-bold">4. Convocação Agendada</h4>
+                                <p class="text-sm text-slate-400">Alerta WhatsApp com horário exato para assinatura expressa.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Table Widget -->
+                    <div class="glass-card rounded-2xl overflow-hidden border border-white/10 shadow-2xl">
+                        <div class="bg-white/5 px-6 py-4 border-b border-white/10 flex justify-between items-center">
+                            <h3 class="font-bold text-sm flex items-center gap-2"><i data-lucide="list" class="w-4 h-4"></i> Fila Digital - Creche Polo Centro</h3>
+                            <span class="text-xs bg-brand-success/20 text-brand-success px-2 py-1 rounded border border-brand-success/30">Transparente</span>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-sm">
+                                <thead class="bg-white/5 text-slate-400">
+                                    <tr>
+                                        <th class="px-6 py-3 font-medium">Protocolo</th>
+                                        <th class="px-6 py-3 font-medium">Iniciais</th>
+                                        <th class="px-6 py-3 font-medium">Pontuação</th>
+                                        <th class="px-6 py-3 font-medium">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-white/5">
+                                    <tr class="hover:bg-white/5 transition-colors bg-brand-success/10">
+                                        <td class="px-6 py-4 font-mono text-xs">VZ-2026-981</td>
+                                        <td class="px-6 py-4 font-medium">M. S. L.</td>
+                                        <td class="px-6 py-4"><span class="bg-purple-500/20 text-purple-300 px-2 py-1 rounded text-xs font-bold">85 pts</span></td>
+                                        <td class="px-6 py-4"><span class="flex items-center gap-1 text-brand-success text-xs font-bold"><i data-lucide="check-circle-2" class="w-3 h-3"></i> Convocado</span></td>
+                                    </tr>
+                                    <tr class="hover:bg-white/5 transition-colors bg-brand-success/10">
+                                        <td class="px-6 py-4 font-mono text-xs">VZ-2026-942</td>
+                                        <td class="px-6 py-4 font-medium">J. A. P.</td>
+                                        <td class="px-6 py-4"><span class="bg-purple-500/20 text-purple-300 px-2 py-1 rounded text-xs font-bold">78 pts</span></td>
+                                        <td class="px-6 py-4"><span class="flex items-center gap-1 text-brand-success text-xs font-bold"><i data-lucide="check-circle-2" class="w-3 h-3"></i> Convocado</span></td>
+                                    </tr>
+                                    <tr class="hover:bg-white/5 transition-colors">
+                                        <td class="px-6 py-4 font-mono text-xs text-slate-400">VZ-2026-993</td>
+                                        <td class="px-6 py-4 font-medium text-slate-300">R. T. C.</td>
+                                        <td class="px-6 py-4"><span class="text-slate-400 text-xs">60 pts</span></td>
+                                        <td class="px-6 py-4"><span class="text-brand-warning text-xs flex items-center gap-1"><i data-lucide="clock" class="w-3 h-3"></i> Aguardando (1º)</span></td>
+                                    </tr>
+                                    <tr class="hover:bg-white/5 transition-colors">
+                                        <td class="px-6 py-4 font-mono text-xs text-slate-400">VZ-2026-104</td>
+                                        <td class="px-6 py-4 font-medium text-slate-300">A. B. V.</td>
+                                        <td class="px-6 py-4"><span class="text-slate-400 text-xs">45 pts</span></td>
+                                        <td class="px-6 py-4"><span class="text-slate-400 text-xs flex items-center gap-1"><i data-lucide="clock" class="w-3 h-3"></i> Aguardando (2º)</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="px-6 py-3 border-t border-white/10 text-xs text-slate-500 text-right italic">
+                            * Nomes ofuscados (LGPD). Critérios: Bolsa Família (30pts), Mãe Solo (30pts), Renda (25pts).
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             SEÇÃO 6: ENGENHARIA / LGPD
+        =========================================== -->
+        <section class="section-slide min-h-screen flex items-center py-20" data-notes="Tudo isso é lindo, mas precisa ser robusto. Nossa infraestrutura é 100% nuvem, sem precisar comprar servidores caros para a prefeitura. Estamos rigorosamente dentro da LGPD, os dados dos cidadãos são criptografados. E o nosso WhatsApp tem uma tecnologia antibloqueio exclusiva com 6 camadas de segurança, simulando digitação e atrasos humanos, para garantir que as mensagens sempre cheguem.">
+            <div class="container mx-auto px-6 lg:px-12 text-center">
+                <h2 class="text-4xl font-bold mb-4">Engenharia de Alta Disponibilidade</h2>
+                <p class="text-xl text-slate-400 max-w-2xl mx-auto mb-16">Tecnologia profissional construída para suportar demandas diárias com total segurança e blindagem de WhatsApp.</p>
+
+                <div class="grid md:grid-cols-4 gap-6 mb-16">
+                    <div class="glass-card p-6 rounded-2xl">
+                        <i data-lucide="cloud" class="w-10 h-10 text-brand-accent mx-auto mb-4"></i>
+                        <h4 class="font-bold mb-2">100% Nuvem</h4>
+                        <p class="text-xs text-slate-400">Sem necessidade de compra de servidores na prefeitura.</p>
+                    </div>
+                    <div class="glass-card p-6 rounded-2xl">
+                        <i data-lucide="lock" class="w-10 h-10 text-brand-success mx-auto mb-4"></i>
+                        <h4 class="font-bold mb-2">Conformidade LGPD</h4>
+                        <p class="text-xs text-slate-400">Dados criptografados e sigilo absoluto dos cidadãos.</p>
+                    </div>
+                    <div class="glass-card p-6 rounded-2xl">
+                        <i data-lucide="zap" class="w-10 h-10 text-brand-warning mx-auto mb-4"></i>
+                        <h4 class="font-bold mb-2">Implantação Expressa</h4>
+                        <p class="text-xs text-slate-400">Treinamento de 2 horas e sistema ativo em 5 dias.</p>
+                    </div>
+                    <div class="glass-card p-6 rounded-2xl">
+                        <i data-lucide="hard-drive" class="w-10 h-10 text-purple-400 mx-auto mb-4"></i>
+                        <h4 class="font-bold mb-2">Compressão Extrema</h4>
+                        <p class="text-xs text-slate-400">Imagens reduzidas em 95% (.webp) economizando banda.</p>
+                    </div>
+                </div>
+
+                <div class="glass-card p-8 rounded-3xl text-left border-brand-accent/20">
+                    <h3 class="text-2xl font-bold mb-8 flex items-center justify-center gap-3">
+                        <i data-lucide="shield-alert" class="text-brand-accent"></i> As 6 Camadas Anti-Bloqueio de WhatsApp
+                    </h3>
+                    <div class="grid md:grid-cols-3 gap-6">
+                        <div class="flex items-start gap-3">
+                            <span class="w-6 h-6 rounded bg-white/10 flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">1</span>
+                            <p class="text-sm text-slate-300"><strong>Descentralização:</strong> Números distintos p/ Saúde e Obras fracionam o volume.</p>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <span class="w-6 h-6 rounded bg-white/10 flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">2</span>
+                            <p class="text-sm text-slate-300"><strong>Two-Way:</strong> O cidadão responde, elevando o Trust Score na Meta.</p>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <span class="w-6 h-6 rounded bg-white/10 flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">3</span>
+                            <p class="text-sm text-slate-300"><strong>Delays Randômicos:</strong> Intervalos de 8 a 18s simulando digitação humana.</p>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <span class="w-6 h-6 rounded bg-white/10 flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">4</span>
+                            <p class="text-sm text-slate-300"><strong>Texto Dinâmico:</strong> Hashes únicos e variáveis impedem padrões de spam.</p>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <span class="w-6 h-6 rounded bg-white/10 flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">5</span>
+                            <p class="text-sm text-slate-300"><strong>Aquecimento Lento:</strong> Rampa gradual de envios durante o piloto.</p>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <span class="w-6 h-6 rounded bg-white/10 flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">6</span>
+                            <p class="text-sm text-slate-300"><strong>Risco Zero:</strong> Mensagens utilitárias esperadas, sem caráter de marketing.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             SEÇÃO 7: JURÍDICO E TCE
+        =========================================== -->
+        <section class="section-slide min-h-screen flex items-center py-20" data-notes="Prefeito, a melhor tecnologia não serve de nada se der dor de cabeça jurídica. Desenhamos esse projeto estritamente dentro da Nova Lei de Licitações (Lei 14.133). O Artigo 75 permite dispensa para tecnologia até 65 mil reais por ano. Nosso contrato fecha em 46 mil, deixando uma margem de segurança gigante. Tudo direto, legal, seguro e com prestação de contas transparente ao Tribunal de Contas.">
+            <div class="container mx-auto px-6 lg:px-12">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl font-bold mb-4">Enquadramento Legal Direto e Seguro</h2>
+                    <p class="text-xl text-slate-400 max-w-2xl mx-auto">Processo 100% aderente à Nova Lei de Licitações para tranquilidade da Gestão.</p>
+                </div>
+
+                <div class="max-w-4xl mx-auto glass-card rounded-3xl p-1 relative overflow-hidden">
+                    <!-- Dourado border effect -->
+                    <div class="absolute inset-0 bg-gradient-to-br from-brand-warning via-transparent to-brand-warning opacity-30"></div>
+                    
+                    <div class="bg-brand-base rounded-[23px] p-8 md:p-12 relative z-10 border border-brand-warning/30">
+                        <i data-lucide="scale" class="w-16 h-16 text-brand-warning mb-6 mx-auto"></i>
+                        <h3 class="text-2xl font-bold text-center mb-10 text-white">Base Legal da Contratação Direta</h3>
+
+                        <div class="space-y-6">
+                            <div class="flex justify-between items-center border-b border-white/10 pb-4">
+                                <span class="text-slate-400">Fundamentação Jurídica</span>
+                                <span class="font-bold text-right">Art. 75, Inciso II da Lei nº 14.133/2021</span>
+                            </div>
+                            <div class="flex justify-between items-center border-b border-white/10 pb-4">
+                                <span class="text-slate-400">Teto Legal Atualizado (Dispensa TI)</span>
+                                <span class="font-bold text-brand-warning">R$ 65.492,11 / ano</span>
+                            </div>
+                            <div class="flex justify-between items-center border-b border-white/10 pb-4">
+                                <span class="text-slate-400">Valor do Contrato (Várzea Alegre)</span>
+                                <span class="font-bold text-brand-success text-lg">R$ 46.800,00 / ano</span>
+                            </div>
+                            
+                            <div class="bg-white/5 rounded-xl p-6 mt-8 border border-white/10">
+                                <h4 class="font-bold text-brand-success flex items-center gap-2 mb-2">
+                                    <i data-lucide="shield-check"></i> Margem de Segurança Confortável
+                                </h4>
+                                <p class="text-sm text-slate-300 leading-relaxed">
+                                    O valor do projeto está substancialmente abaixo do teto legal, permitindo a contratação direta, célere e sem risco de questionamentos ou apontamentos no TCE-CE. Documentação técnica e justificativa prontas.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             SEÇÃO 8: FECHAMENTO
+        =========================================== -->
+        <section class="section-slide min-h-screen flex items-center py-20" data-notes="Para fechar: Entregamos 3 sistemas completos por 3.900 ao mês. Mas a minha proposta não é que você assine hoje. Minha proposta é a Garantia Risco Zero: vamos rodar um Piloto de 15 dias de graça. Instalamos, treinamos a equipe e operamos. Se a população aprovar e você ver a economia acontecendo, nós assinamos. Caso contrário, desligamos sem custo algum para a prefeitura. Podemos iniciar a implantação segunda-feira?">
+            <div class="container mx-auto px-6 lg:px-12 text-center">
+                <h2 class="text-4xl md:text-5xl font-bold mb-4">Investimento e Parceria</h2>
+                <p class="text-xl text-slate-400 max-w-2xl mx-auto mb-16">Pacote completo com hospedagem, disparos e suporte. A decisão mais segura para Várzea Alegre.</p>
+
+                <div class="max-w-3xl mx-auto glass-card rounded-3xl p-8 md:p-12 mb-12 shadow-[0_0_50px_rgba(59,130,246,0.15)] relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-64 h-64 bg-brand-accent rounded-full mix-blend-screen filter blur-3xl opacity-20 transform translate-x-1/2 -translate-y-1/2"></div>
+                    
+                    <div class="grid md:grid-cols-2 gap-8 items-center relative z-10 border-b border-white/10 pb-8 mb-8">
+                        <div class="text-left">
+                            <h3 class="text-2xl font-bold mb-2">Licença Única Municipal</h3>
+                            <ul class="text-sm text-slate-400 space-y-2">
+                                <li>✓ Módulo Saúde (Vans Cariri)</li>
+                                <li>✓ Módulo Obras (GPS)</li>
+                                <li>✓ Módulo CRAS/Educação</li>
+                                <li>✓ Hospedagem e Servidores AWS</li>
+                                <li>✓ WhatsApp Ilimitado</li>
+                                <li>✓ Suporte Local Contínuo</li>
+                            </ul>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-brand-accent font-medium mb-1">Investimento Mensal</div>
+                            <div class="text-5xl font-extrabold mb-2 text-white">R$ 3.900<span class="text-xl text-slate-400 font-normal">,00</span></div>
+                            <div class="text-sm text-slate-500">R$ 46.800,00 anuais</div>
+                        </div>
+                    </div>
+
+                    <div class="bg-gradient-to-r from-brand-success/20 to-brand-success/5 border border-brand-success/30 rounded-2xl p-6 text-left relative overflow-hidden">
+                        <div class="flex gap-4 relative z-10">
+                            <div class="w-12 h-12 rounded-full bg-brand-success/30 flex items-center justify-center shrink-0">
+                                <i data-lucide="handshake" class="w-6 h-6 text-brand-success"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-lg font-bold text-brand-success mb-1">A Oferta Irrecusável: Risco Zero</h4>
+                                <p class="text-sm text-slate-300">
+                                    <strong>15 Dias de Projeto Piloto 100% Gratuito.</strong> O sistema é ativado em Várzea Alegre sem desembolso financeiro. Se a gestão e a população aprovarem, formalizamos. Caso contrário, desativamos sem custos ou multas.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-6">
+                    <button onclick="showToast('Ação registrada! Piloto aprovado para implantação na próxima segunda-feira.', 'success')" class="px-8 py-4 bg-brand-accent hover:bg-blue-600 text-white rounded-full font-bold text-lg transition-all shadow-[0_0_20px_rgba(59,130,246,0.4)] hover:-translate-y-1">
+                        Aprovar Início do Piloto (15 Dias)
+                    </button>
+                    <button onclick="window.print()" class="px-8 py-4 bg-white/5 hover:bg-white/10 text-white border border-white/20 rounded-full font-bold transition-all flex items-center gap-2">
+                        <i data-lucide="file-down" class="w-5 h-5"></i> Gerar Resumo PDF
                     </button>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Footer -->
-    <footer class="bg-slate-950 py-12 border-t border-slate-800">
-        <div class="container mx-auto px-6 text-center">
-            <div class="text-2xl font-bold text-white mb-4">Prefeitura Digital</div>
-            <p class="text-slate-500">Desenvolvido para transformar a gestão pública no Ceará.</p>
-        </div>
-    </footer>
+    </main>
 
-    <!-- Scripts -->
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script src="assets/js/script.js"></script>
+    <!-- Toast Notification Container -->
+    <div id="toast-container" class="fixed bottom-6 right-6 z-[70] flex flex-col gap-3"></div>
+
+    <!-- Interactivity Scripts -->
+    <script>
+        // Initialize Icons
+        lucide.createIcons();
+
+        // --- Core State ---
+        let isSlideMode = false;
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.section-slide');
+        const progressBar = document.getElementById('progress-bar');
+        const slideCounter = document.getElementById('slide-counter');
+
+        // --- Navigation Logic ---
+        function updateSlides() {
+            if (!isSlideMode) return;
+            
+            slides.forEach((slide, index) => {
+                if (index === currentSlide) {
+                    slide.classList.add('active');
+                } else {
+                    slide.classList.remove('active');
+                }
+            });
+
+            // Update Progress
+            const progress = ((currentSlide) / (slides.length - 1)) * 100;
+            progressBar.style.width = `${progress}%`;
+            slideCounter.textContent = `${currentSlide + 1} / ${slides.length}`;
+
+            // Update Presenter Notes
+            const currentNote = slides[currentSlide].getAttribute('data-notes');
+            document.getElementById('notes-content').innerHTML = currentNote 
+                ? `<p>${currentNote}</p>` 
+                : `<p class="italic text-slate-500">Sem notas para este slide.</p>`;
+        }
+
+        function nextSlide() {
+            if (!isSlideMode) {
+                // If in scroll mode, toggle to slide mode and go to section 2
+                toggleMode();
+                currentSlide = 1;
+                updateSlides();
+                return;
+            }
+            if (currentSlide < slides.length - 1) {
+                currentSlide++;
+                updateSlides();
+            }
+        }
+
+        function prevSlide() {
+            if (!isSlideMode) return;
+            if (currentSlide > 0) {
+                currentSlide--;
+                updateSlides();
+            }
+        }
+
+        // --- Mode Toggle ---
+        function toggleMode() {
+            isSlideMode = !isSlideMode;
+            const body = document.body;
+            const controls = document.getElementById('slide-controls');
+            
+            if (isSlideMode) {
+                body.classList.add('presentation-mode');
+                controls.classList.remove('hidden');
+                controls.classList.add('flex');
+                
+                // Find closest slide in view based on scroll to start there
+                if(currentSlide === 0) {
+                    let minDistance = Infinity;
+                    let closestIndex = 0;
+                    slides.forEach((slide, index) => {
+                        const rect = slide.getBoundingClientRect();
+                        const distance = Math.abs(rect.top);
+                        if(distance < minDistance) {
+                            minDistance = distance;
+                            closestIndex = index;
+                        }
+                    });
+                    currentSlide = closestIndex;
+                }
+                
+                window.scrollTo(0, 0); // Lock scroll
+                updateSlides();
+                showToast('Modo Apresentação Ativado. Use as setas (← →) para navegar.', 'info');
+            } else {
+                body.classList.remove('presentation-mode');
+                controls.classList.add('hidden');
+                controls.classList.remove('flex');
+                
+                // Cleanup inline styles from slides
+                slides.forEach(slide => {
+                    slide.classList.remove('active');
+                });
+                progressBar.style.width = '0%';
+                
+                // Scroll to the current slide roughly
+                slides[currentSlide].scrollIntoView({ behavior: 'auto' });
+                showToast('Modo Navegação Contínua Ativado.', 'info');
+            }
+        }
+
+        // --- Event Listeners ---
+        
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (!isSlideMode) return;
+            if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') {
+                e.preventDefault();
+                nextSlide();
+            } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+                e.preventDefault();
+                prevSlide();
+            }
+        });
+
+        // UI Buttons
+        document.getElementById('btn-mode').addEventListener('click', toggleMode);
+        document.getElementById('btn-next').addEventListener('click', nextSlide);
+        document.getElementById('btn-prev').addEventListener('click', prevSlide);
+        
+        // Fullscreen
+        document.getElementById('btn-fullscreen').addEventListener('click', () => {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(err => {
+                    console.log(`Error attempting to enable full-screen mode: ${err.message}`);
+                });
+            } else {
+                document.exitFullscreen();
+            }
+        });
+
+        // Presenter Notes Toggle
+        const notesDrawer = document.getElementById('notes-drawer');
+        document.getElementById('btn-notes').addEventListener('click', () => {
+            notesDrawer.classList.toggle('translate-x-full');
+            if(!isSlideMode && !notesDrawer.classList.contains('translate-x-full')){
+                // update notes based on scroll if not in slide mode
+                updateSlides(); // Just to grab the note text (though currentSlide might be stale, logic could be improved)
+            }
+        });
+        document.getElementById('btn-close-notes').addEventListener('click', () => {
+            notesDrawer.classList.add('translate-x-full');
+        });
+
+        // --- Interactive Widgets ---
+
+        // 1. Image Slider (Before/After)
+        const sliderContainer = document.getElementById('slider-container');
+        const sliderHandle = document.getElementById('slider-handle');
+        const afterImg = document.getElementById('slider-after');
+        let isSliding = false;
+
+        function updateSliderPosition(e) {
+            if (!isSliding) return;
+            const rect = sliderContainer.getBoundingClientRect();
+            let x = e.clientX - rect.left;
+            // Support touch
+            if (e.type.includes('touch')) {
+                x = e.touches[0].clientX - rect.left;
+            }
+            
+            // Constrain bounds
+            x = Math.max(0, Math.min(x, rect.width));
+            const percentage = (x / rect.width) * 100;
+            
+            sliderHandle.style.left = `${percentage}%`;
+            afterImg.style.clipPath = `polygon(${percentage}% 0, 100% 0, 100% 100%, ${percentage}% 100%)`;
+        }
+
+        if(sliderContainer) {
+            sliderHandle.addEventListener('mousedown', () => isSliding = true);
+            sliderHandle.addEventListener('touchstart', () => isSliding = true);
+            window.addEventListener('mouseup', () => isSliding = false);
+            window.addEventListener('touchend', () => isSliding = false);
+            window.addEventListener('mousemove', updateSliderPosition);
+            window.addEventListener('touchmove', updateSliderPosition);
+        }
+
+        // 2. WhatsApp Simulator
+        function simulateWA(option) {
+            const actions = document.getElementById('wa-actions');
+            const response = document.getElementById('wa-response');
+            const userMsg = document.getElementById('wa-user-msg');
+            const botMsg = document.getElementById('wa-bot-msg');
+            
+            actions.classList.add('hidden');
+            response.classList.remove('hidden');
+            
+            if (option === 1) {
+                userMsg.textContent = "1";
+                botMsg.innerHTML = `✅ <strong>Vaga Confirmada!</strong><br>Agradecemos. Sua presença está garantida na van OCR-1234 amanhã. O Prefeito Flavinho deseja uma excelente viagem!`;
+            } else {
+                userMsg.textContent = "2";
+                botMsg.innerHTML = `🔄 <strong>Cancelamento Registrado.</strong><br>Sua vaga foi liberada para o próximo da fila. Agradecemos por avisar e evitar o desperdício!`;
+            }
+        }
+
+        function resetWA() {
+            document.getElementById('wa-actions').classList.remove('hidden');
+            document.getElementById('wa-response').classList.add('hidden');
+        }
+
+        // --- Utility: Toasts ---
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            
+            let bgClass = 'bg-slate-800 border-slate-700';
+            let icon = '<i data-lucide="info" class="text-blue-400 w-5 h-5"></i>';
+            
+            if (type === 'success') {
+                bgClass = 'bg-[#072418] border-brand-success/30 text-green-100';
+                icon = '<i data-lucide="check-circle" class="text-brand-success w-5 h-5"></i>';
+            }
+
+            toast.className = `flex items-center gap-3 p-4 rounded-xl border shadow-2xl toast-enter ${bgClass} w-80`;
+            toast.innerHTML = `${icon} <span class="text-sm font-medium leading-tight">${message}</span>`;
+            
+            container.appendChild(toast);
+            lucide.createIcons({ root: toast });
+
+            // Animate in
+            requestAnimationFrame(() => {
+                toast.classList.remove('toast-enter');
+                toast.classList.add('toast-enter-active');
+            });
+
+            // Remove after 3s
+            setTimeout(() => {
+                toast.classList.replace('toast-enter-active', 'toast-leave');
+                requestAnimationFrame(() => {
+                    toast.classList.add('toast-leave-active');
+                });
+                setTimeout(() => toast.remove(), 300);
+            }, 3500);
+        }
+        
+    </script>
 </body>
 </html>
