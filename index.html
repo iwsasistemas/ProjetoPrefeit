@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Várzea Alegre Digital - Inovação Pública</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- AOS Animation CSS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            900: '#1e3a8a',
+                            950: '#172554',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-brand-950 text-slate-100 font-sans antialiased overflow-x-hidden selection:bg-brand-500 selection:text-white">
+
+    <!-- Hero Section -->
+    <header class="relative min-h-screen flex items-center justify-center overflow-hidden">
+        <!-- Abstract Background -->
+        <div class="absolute inset-0 z-0 opacity-40">
+            <div class="absolute top-0 left-1/4 w-96 h-96 bg-brand-600 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob"></div>
+            <div class="absolute top-0 right-1/4 w-96 h-96 bg-cyan-500 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob animation-delay-2000"></div>
+            <div class="absolute -bottom-32 left-1/2 w-96 h-96 bg-purple-600 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob animation-delay-4000"></div>
+        </div>
+
+        <div class="container mx-auto px-6 relative z-10 text-center">
+            <span class="inline-block py-1 px-3 rounded-full bg-brand-900/50 border border-brand-500/30 text-brand-100 text-sm font-medium tracking-wider mb-6" data-aos="fade-down">
+                GESTÃO PREFEITO FLAVINHO
+            </span>
+            <h1 class="text-5xl md:text-7xl font-bold tracking-tight mb-8" data-aos="fade-up" data-aos-delay="100">
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300">Várzea Alegre Digital</span>
+            </h1>
+            <p class="text-xl md:text-2xl text-slate-300 max-w-3xl mx-auto mb-12" data-aos="fade-up" data-aos-delay="200">
+                Plataforma Única de Eficiência Urbana, Gestão de Frota e Cidadania.
+            </p>
+            <div data-aos="fade-up" data-aos-delay="300">
+                <a href="#solucoes" class="inline-flex items-center justify-center px-8 py-4 text-base font-semibold text-white transition-all duration-200 bg-brand-600 border border-transparent rounded-full hover:bg-brand-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-600">
+                    Conhecer a Plataforma
+                    <i class="ph ph-arrow-down ml-2 text-xl"></i>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Problemas Section -->
+    <section class="py-24 bg-slate-900">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">O Custo Oculto da Gestão Analógica</h2>
+                <p class="text-slate-400 max-w-2xl mx-auto">Desafios operacionais do modelo tradicional que comprometem a gestão pública e o atendimento ao cidadão.</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Card 1 -->
+                <div class="bg-slate-800/50 p-8 rounded-3xl border border-slate-700 hover:border-brand-500/50 transition-colors" data-aos="fade-up" data-aos-delay="100">
+                    <div class="w-14 h-14 bg-red-500/20 text-red-400 rounded-2xl flex items-center justify-center text-3xl mb-6">
+                        <i class="ph ph-file-text"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Processos em Papel</h3>
+                    <p class="text-slate-400 text-sm">Acúmulo de arquivos físicos e retrabalho de servidores. Ausência de relatórios em tempo real, gerando atrasos nos processos administrativos.</p>
+                </div>
+                <!-- Card 2 -->
+                <div class="bg-slate-800/50 p-8 rounded-3xl border border-slate-700 hover:border-brand-500/50 transition-colors" data-aos="fade-up" data-aos-delay="200">
+                    <div class="w-14 h-14 bg-orange-500/20 text-orange-400 rounded-2xl flex items-center justify-center text-3xl mb-6">
+                        <i class="ph ph-gas-pump"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Desperdício de Frota</h3>
+                    <p class="text-slate-400 text-sm">Vans e ônibus viajando com até 30% de assentos vagos. Falta de confirmação prévia gera desperdício de combustível e recursos.</p>
+                </div>
+                <!-- Card 3 -->
+                <div class="bg-slate-800/50 p-8 rounded-3xl border border-slate-700 hover:border-brand-500/50 transition-colors" data-aos="fade-up" data-aos-delay="300">
+                    <div class="w-14 h-14 bg-purple-500/20 text-purple-400 rounded-2xl flex items-center justify-center text-3xl mb-6">
+                        <i class="ph ph-users-three"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Desgaste em Filas</h3>
+                    <p class="text-slate-400 text-sm">Famílias enfrentando filas físicas de madrugada. Matrículas sem sistema digital causam sofrimento e exclusão aos mais vulneráveis.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Solucoes / Sistemas -->
+    <section id="solucoes" class="py-24 bg-brand-950 relative overflow-hidden">
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="text-center mb-20" data-aos="fade-up">
+                <h2 class="text-4xl md:text-5xl font-bold mb-4">Nossa Solução Inteligente</h2>
+                <p class="text-slate-400 max-w-2xl mx-auto">Três pilares fundamentais para transformar a cidade.</p>
+            </div>
+
+            <!-- Sistema 1 -->
+            <div class="flex flex-col lg:flex-row items-center gap-12 mb-32">
+                <div class="lg:w-1/2" data-aos="fade-right">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/20 text-blue-300 text-sm font-semibold mb-6">
+                        <i class="ph-fill ph-ambulance"></i> Sistema 1
+                    </div>
+                    <h3 class="text-3xl font-bold mb-6">Logística da Saúde Inteligente</h3>
+                    <p class="text-slate-400 mb-8 text-lg">Zere o desperdício de frota e melhore o atendimento. Cidadãos solicitam viagens via WhatsApp, a triagem é digital e a ocupação da frota é 100% controlada.</p>
+                    <ul class="space-y-4">
+                        <li class="flex items-start gap-3">
+                            <i class="ph-fill ph-check-circle text-brand-400 text-xl mt-1"></i>
+                            <div>
+                                <strong class="block text-slate-200">Solicitação Mobile</strong>
+                                <span class="text-slate-400 text-sm">Via WhatsApp sem baixar aplicativos.</span>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i class="ph-fill ph-check-circle text-brand-400 text-xl mt-1"></i>
+                            <div>
+                                <strong class="block text-slate-200">Remanejamento Dinâmico</strong>
+                                <span class="text-slate-400 text-sm">Cancelamentos liberam vagas em tempo real.</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="lg:w-1/2 relative" data-aos="fade-left">
+                    <div class="absolute inset-0 bg-gradient-to-tr from-brand-600 to-cyan-500 rounded-3xl blur-2xl opacity-20"></div>
+                    <img src="https://images.unsplash.com/photo-1516549655169-df83a0774514?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Saúde" class="rounded-3xl relative z-10 border border-slate-700 shadow-2xl">
+                </div>
+            </div>
+
+            <!-- Sistema 2 -->
+            <div class="flex flex-col lg:flex-row-reverse items-center gap-12 mb-32">
+                <div class="lg:w-1/2" data-aos="fade-left">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-500/20 text-orange-300 text-sm font-semibold mb-6">
+                        <i class="ph-fill ph-wrench"></i> Sistema 2
+                    </div>
+                    <h3 class="text-3xl font-bold mb-6">Zeladoria Urbana e Obras</h3>
+                    <p class="text-slate-400 mb-8 text-lg">Manutenção pública georreferenciada por GPS. O cidadão envia o problema com foto, a prefeitura visualiza em mapa de calor e a equipe resolve com rota otimizada.</p>
+                    <ul class="space-y-4">
+                        <li class="flex items-start gap-3">
+                            <i class="ph-fill ph-check-circle text-orange-400 text-xl mt-1"></i>
+                            <div>
+                                <strong class="block text-slate-200">Mapa de Calor</strong>
+                                <span class="text-slate-400 text-sm">Demandas agrupadas por bairro.</span>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i class="ph-fill ph-check-circle text-orange-400 text-xl mt-1"></i>
+                            <div>
+                                <strong class="block text-slate-200">Retorno "Antes e Depois"</strong>
+                                <span class="text-slate-400 text-sm">Transparência e marketing político ativo.</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="lg:w-1/2 relative" data-aos="fade-right">
+                    <div class="absolute inset-0 bg-gradient-to-tr from-orange-600 to-yellow-500 rounded-3xl blur-2xl opacity-20"></div>
+                    <img src="https://images.unsplash.com/photo-1584464457692-73ec53eb63a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Obras" class="rounded-3xl relative z-10 border border-slate-700 shadow-2xl">
+                </div>
+            </div>
+
+            <!-- Sistema 3 -->
+            <div class="flex flex-col lg:flex-row items-center gap-12">
+                <div class="lg:w-1/2" data-aos="fade-right">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/20 text-purple-300 text-sm font-semibold mb-6">
+                        <i class="ph-fill ph-student"></i> Sistema 3
+                    </div>
+                    <h3 class="text-3xl font-bold mb-6">Matrículas e Projetos Sociais</h3>
+                    <p class="text-slate-400 mb-8 text-lg">Fim definitivo das filas noturnas. Cadastro pelo smartphone, algoritmo socioeconômico justo e fila 100% auditável pelo TCE-CE.</p>
+                    <ul class="space-y-4">
+                        <li class="flex items-start gap-3">
+                            <i class="ph-fill ph-check-circle text-purple-400 text-xl mt-1"></i>
+                            <div>
+                                <strong class="block text-slate-200">Algoritmo Inteligente</strong>
+                                <span class="text-slate-400 text-sm">Priorização automática para famílias vulneráveis.</span>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i class="ph-fill ph-check-circle text-purple-400 text-xl mt-1"></i>
+                            <div>
+                                <strong class="block text-slate-200">Pesquisa de Acolhimento</strong>
+                                <span class="text-slate-400 text-sm">Indicadores de satisfação para gestão do Prefeito.</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="lg:w-1/2 relative" data-aos="fade-left">
+                    <div class="absolute inset-0 bg-gradient-to-tr from-purple-600 to-pink-500 rounded-3xl blur-2xl opacity-20"></div>
+                    <img src="https://images.unsplash.com/photo-1577896851231-70ef18881754?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Matrículas" class="rounded-3xl relative z-10 border border-slate-700 shadow-2xl">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Beneficios / Tech -->
+    <section class="py-24 bg-slate-900 border-t border-slate-800">
+        <div class="container mx-auto px-6">
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="text-center" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="w-16 h-16 mx-auto bg-slate-800 rounded-full flex items-center justify-center text-3xl mb-4 border border-slate-700">
+                        ☁️
+                    </div>
+                    <h4 class="font-bold text-lg mb-2">100% Nuvem</h4>
+                    <p class="text-slate-400 text-sm">Zero compra de servidores. Alta disponibilidade.</p>
+                </div>
+                <div class="text-center" data-aos="zoom-in" data-aos-delay="200">
+                    <div class="w-16 h-16 mx-auto bg-slate-800 rounded-full flex items-center justify-center text-3xl mb-4 border border-slate-700">
+                        🔒
+                    </div>
+                    <h4 class="font-bold text-lg mb-2">Conformidade LGPD</h4>
+                    <p class="text-slate-400 text-sm">Criptografia e segurança total dos dados.</p>
+                </div>
+                <div class="text-center" data-aos="zoom-in" data-aos-delay="300">
+                    <div class="w-16 h-16 mx-auto bg-slate-800 rounded-full flex items-center justify-center text-3xl mb-4 border border-slate-700">
+                        🚀
+                    </div>
+                    <h4 class="font-bold text-lg mb-2">Implantação Expressa</h4>
+                    <p class="text-slate-400 text-sm">Pronta para uso em 5 dias úteis. Sem burocracia.</p>
+                </div>
+                <div class="text-center" data-aos="zoom-in" data-aos-delay="400">
+                    <div class="w-16 h-16 mx-auto bg-slate-800 rounded-full flex items-center justify-center text-3xl mb-4 border border-slate-700">
+                        👥
+                    </div>
+                    <h4 class="font-bold text-lg mb-2">Capacitação Prática</h4>
+                    <p class="text-slate-400 text-sm">Treinamento ágil para servidores municipais.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing / CTA -->
+    <section class="py-24 bg-brand-950 relative">
+        <div class="container mx-auto px-6 max-w-4xl">
+            <div class="bg-gradient-to-br from-slate-800 to-slate-900 rounded-3xl p-8 md:p-12 border border-slate-700 shadow-2xl relative overflow-hidden" data-aos="fade-up">
+                <div class="absolute top-0 right-0 p-8 opacity-10 pointer-events-none">
+                    <i class="ph-fill ph-handshake text-9xl"></i>
+                </div>
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">Proposta de Investimento e Parceria</h2>
+                <p class="text-slate-400 mb-8 text-lg">Enquadramento legal direto e seguro (Dispensa por Valor - Lei 14.133/2021).</p>
+                
+                <div class="flex flex-col md:flex-row items-center justify-between gap-8 mb-8 pb-8 border-b border-slate-700">
+                    <div>
+                        <div class="text-brand-400 font-semibold mb-1">Investimento Mensal</div>
+                        <div class="text-4xl md:text-5xl font-bold">R$ 3.900<span class="text-xl text-slate-400">/mês</span></div>
+                        <div class="text-sm text-slate-500 mt-2">R$ 46.800 anuais (inclui servidores, WhatsApp, suporte)</div>
+                    </div>
+                    <div class="bg-emerald-500/10 text-emerald-400 px-6 py-3 rounded-xl border border-emerald-500/20 font-medium">
+                        ✅ Início já na próxima semana
+                    </div>
+                </div>
+
+                <div class="flex justify-center">
+                    <button class="bg-brand-600 hover:bg-brand-500 text-white font-bold py-4 px-10 rounded-full text-lg transition-all shadow-[0_0_20px_rgba(37,99,235,0.4)] hover:shadow-[0_0_30px_rgba(37,99,235,0.6)]">
+                        Agendar Projeto Piloto (15 Dias)
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-slate-950 py-12 border-t border-slate-800">
+        <div class="container mx-auto px-6 text-center">
+            <div class="text-2xl font-bold text-white mb-4">Prefeitura Digital</div>
+            <p class="text-slate-500">Desenvolvido para transformar a gestão pública no Ceará.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="assets/js/script.js"></script>
+</body>
+</html>
